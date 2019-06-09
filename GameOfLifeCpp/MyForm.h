@@ -1,4 +1,5 @@
 #pragma once
+#include "GOL.h"
 
 namespace GameOfLifeCpp {
 
@@ -12,6 +13,7 @@ namespace GameOfLifeCpp {
 	/// <summary>
 	/// Podsumowanie informacji o MyForm
 	/// </summary>
+	GOL GameOfLife;
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -21,6 +23,12 @@ namespace GameOfLifeCpp {
 			//
 			//TODO: W tym miejscu dodaj kod konstruktora
 			//
+//			this->graphics = gcnew Graphics;
+			this->graphics = pictureBox1->CreateGraphics();
+			this->brush = gcnew SolidBrush(Color::Red);
+
+			this->width = pictureBox1->Width;
+			this->height = pictureBox1->Height;
 		}
 
 	protected:
@@ -36,7 +44,7 @@ namespace GameOfLifeCpp {
 		}
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
 	private: System::Windows::Forms::NumericUpDown^  numericUpDown3;
-	private: System::Windows::Forms::NumericUpDown^  numericUpDown4;
+
 	private: System::Windows::Forms::Label^  label3;
 	private: System::Windows::Forms::Label^  label4;
 	private: System::Windows::Forms::Label^  label5;
@@ -57,6 +65,13 @@ namespace GameOfLifeCpp {
 	private: System::Windows::Forms::Button^  button9;
 	private: System::Windows::Forms::Button^  button10;
 
+	private:int width;
+	private: int height;
+	
+	private: Graphics^graphics;
+	private: SolidBrush^brush;
+	private: System::Windows::Forms::Button^  button11;
+
 	protected:
 
 	private:
@@ -75,7 +90,6 @@ namespace GameOfLifeCpp {
 			System::ComponentModel::ComponentResourceManager^  resources = (gcnew System::ComponentModel::ComponentResourceManager(MyForm::typeid));
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->numericUpDown3 = (gcnew System::Windows::Forms::NumericUpDown());
-			this->numericUpDown4 = (gcnew System::Windows::Forms::NumericUpDown());
 			this->label3 = (gcnew System::Windows::Forms::Label());
 			this->label4 = (gcnew System::Windows::Forms::Label());
 			this->label5 = (gcnew System::Windows::Forms::Label());
@@ -95,9 +109,9 @@ namespace GameOfLifeCpp {
 			this->button8 = (gcnew System::Windows::Forms::Button());
 			this->button9 = (gcnew System::Windows::Forms::Button());
 			this->button10 = (gcnew System::Windows::Forms::Button());
+			this->button11 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->BeginInit();
 			this->SuspendLayout();
@@ -123,15 +137,6 @@ namespace GameOfLifeCpp {
 			this->numericUpDown3->Size = System::Drawing::Size(120, 28);
 			this->numericUpDown3->TabIndex = 3;
 			this->numericUpDown3->Value = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
-			// 
-			// numericUpDown4
-			// 
-			this->numericUpDown4->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
-				static_cast<System::Byte>(238)));
-			this->numericUpDown4->Location = System::Drawing::Point(1350, 153);
-			this->numericUpDown4->Name = L"numericUpDown4";
-			this->numericUpDown4->Size = System::Drawing::Size(120, 28);
-			this->numericUpDown4->TabIndex = 4;
 			// 
 			// label3
 			// 
@@ -324,6 +329,7 @@ namespace GameOfLifeCpp {
 			this->button8->TabIndex = 19;
 			this->button8->Text = L"START";
 			this->button8->UseVisualStyleBackColor = true;
+			this->button8->Click += gcnew System::EventHandler(this, &MyForm::button8_Click);
 			// 
 			// button9
 			// 
@@ -349,11 +355,24 @@ namespace GameOfLifeCpp {
 			this->button10->Text = L"<";
 			this->button10->UseVisualStyleBackColor = true;
 			// 
+			// button11
+			// 
+			this->button11->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->button11->Location = System::Drawing::Point(1268, 61);
+			this->button11->Name = L"button11";
+			this->button11->Size = System::Drawing::Size(183, 60);
+			this->button11->TabIndex = 22;
+			this->button11->Text = L"set the board";
+			this->button11->UseVisualStyleBackColor = true;
+			this->button11->Click += gcnew System::EventHandler(this, &MyForm::button11_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->button11);
 			this->Controls->Add(this->button10);
 			this->Controls->Add(this->button9);
 			this->Controls->Add(this->button8);
@@ -367,7 +386,6 @@ namespace GameOfLifeCpp {
 			this->Controls->Add(this->button2);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
-			this->Controls->Add(this->numericUpDown4);
 			this->Controls->Add(this->label2);
 			this->Controls->Add(this->numericUpDown1);
 			this->Controls->Add(this->numericUpDown3);
@@ -383,7 +401,6 @@ namespace GameOfLifeCpp {
 			this->Text = L"Convay\'s Game of Life in C++";
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->EndInit();
-			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown4))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown1))->EndInit();
 			this->ResumeLayout(false);
@@ -391,5 +408,25 @@ namespace GameOfLifeCpp {
 
 		}
 #pragma endregion
-	};
+
+//---------------------------------START BUTTON---------------------------------------------------------
+	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
+		GameOfLife.setActive(true);
+		int size = (int)numericUpDown1->Value;
+		GameOfLife.setSize(size);
+		graphics->FillRectangle(brush, 4, 4, GameOfLife.size, GameOfLife.size);
+	}
+
+//-------------------------------SETTING THE BOARD BUTTON-----------------------------------------------
+	private: System::Void button11_Click(System::Object^  sender, System::EventArgs^  e) {
+		int nW= (int)numericUpDown1->Value;
+		int nH = (int)numericUpDown2->Value;
+		//GameOfLife.setBoard(nH,nW);
+
+		//int cellSize= ((pictureBox1->Width/nW) > (pictureBox1->Height/nH)) ? (pictureBox1->Height / nH) : (pictureBox1->Width / nW);
+		int cellSize = ((width/ nW) > (height / nH)) ? (height / nH) : (width / nW);
+		pictureBox1->Width = cellSize * nW;
+		pictureBox1->Height = cellSize * nH;
+	}
+};
 }
