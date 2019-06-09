@@ -26,6 +26,7 @@ namespace GameOfLifeCpp {
 //			this->graphics = gcnew Graphics;
 			this->graphics = pictureBox1->CreateGraphics();
 			this->brush = gcnew SolidBrush(Color::Red);
+			this->pen= gcnew Pen(Color::Pink);
 
 			this->width = pictureBox1->Width;
 			this->height = pictureBox1->Height;
@@ -70,6 +71,7 @@ namespace GameOfLifeCpp {
 	
 	private: Graphics^graphics;
 	private: SolidBrush^brush;
+	private:Pen^pen;
 	private: System::Windows::Forms::Button^  button11;
 
 	protected:
@@ -427,6 +429,12 @@ namespace GameOfLifeCpp {
 		int cellSize = ((width/ nW) > (height / nH)) ? (height / nH) : (width / nW);
 		pictureBox1->Width = cellSize * nW;
 		pictureBox1->Height = cellSize * nH;
+
+		for (int it = 0; it < pictureBox1->Width; it += cellSize)
+			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+		for (int it = 0; it < pictureBox1->Height; it += cellSize)
+			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
 	}
 };
 }
