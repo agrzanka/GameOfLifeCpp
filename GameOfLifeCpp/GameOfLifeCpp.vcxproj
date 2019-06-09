@@ -133,10 +133,14 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="Board.cpp" />
+    <ClCompile Include="Cell.cpp" />
     <ClCompile Include="GOL.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Board.h" />
+    <ClInclude Include="Cell.h" />
     <ClInclude Include="GOL.h" />
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>

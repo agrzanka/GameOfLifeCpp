@@ -421,6 +421,9 @@ namespace GameOfLifeCpp {
 
 //-------------------------------SETTING THE BOARD BUTTON-----------------------------------------------
 	private: System::Void button11_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		pictureBox1->Refresh();
+
 		int nW= (int)numericUpDown1->Value;
 		int nH = (int)numericUpDown2->Value;
 		//GameOfLife.setBoard(nH,nW);
