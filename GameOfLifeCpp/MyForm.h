@@ -1,5 +1,6 @@
 #pragma once
 #include "GOL.h"
+#include <stdlib.h>
 
 namespace GameOfLifeCpp {
 
@@ -344,6 +345,7 @@ namespace GameOfLifeCpp {
 			this->button9->TabIndex = 20;
 			this->button9->Text = L"STOP";
 			this->button9->UseVisualStyleBackColor = true;
+			this->button9->Click += gcnew System::EventHandler(this, &MyForm::button9_Click);
 			// 
 			// button10
 			// 
@@ -413,10 +415,17 @@ namespace GameOfLifeCpp {
 
 //---------------------------------START BUTTON---------------------------------------------------------
 	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
-		GameOfLife.setActive(true);
-		int size = (int)numericUpDown1->Value;
-		GameOfLife.setSize(size);
-		graphics->FillRectangle(brush, 4, 4, GameOfLife.size, GameOfLife.size);
+		GameOfLife.setActive(true); 
+
+		int i = 10;
+		while (GameOfLife.active == true)
+		{
+			graphics->FillRectangle(brush, i, i, GameOfLife.size, GameOfLife.size);
+			i += 20;
+			_sleep(300);
+		}
+		
+		
 	}
 
 //-------------------------------SETTING THE BOARD BUTTON-----------------------------------------------
@@ -430,6 +439,7 @@ namespace GameOfLifeCpp {
 
 		//int cellSize= ((pictureBox1->Width/nW) > (pictureBox1->Height/nH)) ? (pictureBox1->Height / nH) : (pictureBox1->Width / nW);
 		int cellSize = ((width/ nW) > (height / nH)) ? (height / nH) : (width / nW);
+		GameOfLife.setSize(cellSize);
 		pictureBox1->Width = cellSize * nW;
 		pictureBox1->Height = cellSize * nH;
 
@@ -438,6 +448,9 @@ namespace GameOfLifeCpp {
 
 		for (int it = 0; it < pictureBox1->Height; it += cellSize)
 			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+	}
+	private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
+		GameOfLife.setActive(false);
 	}
 };
 }
