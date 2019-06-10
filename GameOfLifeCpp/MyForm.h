@@ -142,6 +142,7 @@ namespace GameOfLifeCpp {
 			this->numericUpDown3->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->numericUpDown3->Location = System::Drawing::Point(1101, 205);
+			this->numericUpDown3->Maximum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1000, 0, 0, 0 });
 			this->numericUpDown3->Minimum = System::Decimal(gcnew cli::array< System::Int32 >(4) { 1, 0, 0, 0 });
 			this->numericUpDown3->Name = L"numericUpDown3";
 			this->numericUpDown3->Size = System::Drawing::Size(120, 28);
@@ -481,13 +482,36 @@ namespace GameOfLifeCpp {
 		pictureBox1->Width = cellSize * nW;
 		pictureBox1->Height = cellSize * nH;
 
+		GameOfLife.setBoard(nH, nW);
+
+		pictureBox1->Refresh();
+
+		int FPS = (int)numericUpDown3->Value;
+
+		DateTime start = DateTime::Now;
+
 		for (int it = 0; it < pictureBox1->Width; it += cellSize)
 			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
 
 		for (int it = 0; it < pictureBox1->Height; it += cellSize)
 			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
 
-		GameOfLife.setBoard(nH, nW);
+		GameOfLife.board.update();
+		for (int y = 0; y < GameOfLife.board.a; y++)
+			for (int x = 0; x < GameOfLife.board.b; x++)
+			{
+				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+				{
+					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+				}
+			}
+		DateTime stop = DateTime::Now;
+		TimeSpan t = stop - start;
+		int maxFPS = 1000 / t.TotalMilliseconds;
+		FPS=(FPS>maxFPS)?maxFPS:FPS;
+		timer->Interval = (1000 / FPS);
+		numericUpDown3->Value = FPS;
+		
 		std::vector<int>alive = {13,14,15};
 		GameOfLife.board.init(alive);
 	}
