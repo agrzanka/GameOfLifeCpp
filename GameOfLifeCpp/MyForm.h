@@ -31,6 +31,10 @@ namespace GameOfLifeCpp {
 
 			this->width = pictureBox1->Width;
 			this->height = pictureBox1->Height;
+
+			this->timer = gcnew Timer();
+			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::onTimedEvent);
+			this->timer->Interval = 1000;
 		}
 
 	protected:
@@ -73,6 +77,9 @@ namespace GameOfLifeCpp {
 	private: Graphics^graphics;
 	private: SolidBrush^brush;
 	private:Pen^pen;
+
+			static Timer^timer;
+
 	private: System::Windows::Forms::Button^  button11;
 
 	protected:
@@ -412,19 +419,50 @@ namespace GameOfLifeCpp {
 
 		}
 #pragma endregion
+		
+	private: System::Void onTimedEvent(System::Object^  sender, System::EventArgs^  e) {
+		pictureBox1->Refresh();
+		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
 
+		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+		for (int y = 0; y < GameOfLife.board.a; y++)
+			for (int x = 0; x < GameOfLife.board.b; x++)
+			{
+				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+				{
+					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+				}
+			}
+		GameOfLife.board.update();
+	}
 //---------------------------------START BUTTON---------------------------------------------------------
 	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
-		GameOfLife.setActive(true); 
+		//GameOfLife.setActive(true); 
 
-		int i = 10;
-		while (GameOfLife.active == true)
-		{
-			graphics->FillRectangle(brush, i, i, GameOfLife.size, GameOfLife.size);
-			i += 20;
-			_sleep(300);
-		}
-		
+		//int i = 10;
+		//while (GameOfLife.active == true)
+		//{
+		//	graphics->FillRectangle(brush, i, i, GameOfLife.size, GameOfLife.size);
+		//	i += 20;
+		//	_sleep(300);
+		//}
+		button1->Enabled = false;
+		button2->Enabled = false;
+		button3->Enabled = false;
+		button4->Enabled = false;
+		button5->Enabled = false;
+		button6->Enabled = false;
+		button7->Enabled = false;
+		button8->Enabled = false;
+		button10->Enabled = false;
+		button11->Enabled = false;
+
+		button9->Enabled = true;
+
+		timer->Start();
 		
 	}
 
@@ -448,9 +486,28 @@ namespace GameOfLifeCpp {
 
 		for (int it = 0; it < pictureBox1->Height; it += cellSize)
 			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+		GameOfLife.setBoard(nH, nW);
+		std::vector<int>alive = {13,14,15};
+		GameOfLife.board.init(alive);
 	}
+
+	//--------------------------STOP BUTTON------------------------------------------------
 	private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
-		GameOfLife.setActive(false);
+		//GameOfLife.setActive(false);
+		timer->Stop();
+		button1->Enabled = true;
+		button2->Enabled = true;
+		button3->Enabled = true;
+		button4->Enabled = true;
+		button5->Enabled = true;
+		button6->Enabled = true;
+		button7->Enabled = true;
+		button8->Enabled = true;
+		button10->Enabled = true;
+		button11->Enabled = true;
+
+		button9->Enabled = false;
 	}
 };
 }

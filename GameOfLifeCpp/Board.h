@@ -7,11 +7,12 @@ using namespace std;
 class Board {
 
 private:
-	vector<Cell>cells;
+	
 
 public:
 	Board();
 	Board(int a, int b);
+	vector<Cell>cells;
 	int a;
 	int b;
 	int numOfIterations;
