@@ -18,6 +18,10 @@ namespace GameOfLifeCpp {
 	/// Podsumowanie informacji o MyForm
 	/// </summary>
 	GOL GameOfLife;
+	bool manualMode = false;
+
+	std::vector<int>alive = {};
+
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	public:
@@ -157,6 +161,7 @@ namespace GameOfLifeCpp {
 			this->pictureBox1->Size = System::Drawing::Size(1000, 750);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
 			// 
 			// numericUpDown3
 			// 
@@ -486,6 +491,8 @@ namespace GameOfLifeCpp {
 #pragma endregion
 		
 	private: System::Void onTimedEvent(System::Object^  sender, System::EventArgs^  e) {
+
+		GameOfLife.board.update();
 		pictureBox1->Refresh();
 		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
 			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
@@ -501,7 +508,6 @@ namespace GameOfLifeCpp {
 					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
 				}
 			}
-		GameOfLife.board.update();
 		MEMORYSTATUSEX statex;
 		statex.dwLength = sizeof(statex);
 		GlobalMemoryStatusEx(&statex);
@@ -520,6 +526,7 @@ namespace GameOfLifeCpp {
 		//	i += 20;
 		//	_sleep(300);
 		//}
+		manualMode = false;
 		button1->Enabled = false;
 		button2->Enabled = false;
 		button3->Enabled = false;
@@ -534,7 +541,6 @@ namespace GameOfLifeCpp {
 		button9->Enabled = true;
 
 		timer->Start();
-		
 	}
 
 //-------------------------------SETTING THE BOARD BUTTON-----------------------------------------------
@@ -614,6 +620,10 @@ namespace GameOfLifeCpp {
 		button11->Enabled = true;
 
 		button9->Enabled = false;
+
+		GameOfLife.getPastIteration();
+		GameOfLife.getPastIteration();
+
 	}
 			 //back button
 	private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -639,33 +649,40 @@ namespace GameOfLifeCpp {
 		if (GameOfLife.firstIter())
 			button10->Enabled = false;
 	}
-			 //manual mode button
-private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
-	button8->Enabled = true;
-}
+//-----------------------manual mode button---------------------------------------------
+	private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+		button8->Enabled = true;
+		manualMode = true;
 
+	}
 //-----------------------------bee-hieve-------------------------------------------------
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
 	std::vector<vector<int>>pattern = { {2,1},{3,1},{1,2},{4,2},{2,3},{3,3} };
-	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	alive = GameOfLife.makePattern(pattern);
 	GameOfLife.board.init(alive);
 	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
 }
 
 //-------------------------------blinker-------------------------------------------------
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 	std::vector<vector<int>>pattern = { {1,2},{2,2},{3,2}};
-	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	alive=GameOfLife.makePattern(pattern);
 	GameOfLife.board.init(alive);
 	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
 }
 
 //--------------------------------glider-----------------------------------------------
 private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 	std::vector<vector<int>>pattern = { {2,1},{3,2},{1,3},{2,3},{3,3} };
-	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	alive = GameOfLife.makePattern(pattern);
 	GameOfLife.board.init(alive);
 	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
 }
 
 		 //cooperhead
@@ -680,6 +697,44 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 		 //crown bee suttle
 private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
 	button8->Enabled = true;
+}
+private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (manualMode == true)
+	{
+		alive = GameOfLife.checkCurrent();
+
+		MouseEventArgs^ me = (MouseEventArgs^)e;
+		if (me->Button == System::Windows::Forms::MouseButtons::Left)
+		{
+			if (me->X >= width || me->Y >=height)
+				return;
+			if (me->X < 0 || me->Y < 0)
+				return;
+			int id = (me->X / GameOfLife.size) + ((me->Y / GameOfLife.size)*GameOfLife.board.b);
+			if (!GameOfLife.board.cells[id].isAlive())
+				alive.push_back(id);
+				
+			
+			GameOfLife.board.init(alive);
+
+			pictureBox1->Refresh();
+			for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+				graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+			for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+				graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+			for (int y = 0; y < GameOfLife.board.a; y++)
+				for (int x = 0; x < GameOfLife.board.b; x++)
+				{
+					if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+					{
+						graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+					}
+				}
+			//zarodkowanie.drawResult(width, height, graphics, brush, z);
+		}
+	}
 }
 };
 }

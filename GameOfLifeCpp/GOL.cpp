@@ -45,8 +45,17 @@ void GOL::addIterationInfo(vector<int>info)
 
 vector<int> GOL::getPastIteration()
 {
-	vector<int> past = this->pastIterations.back();
-	this->pastIterations.pop_back();
+	vector<int> past;
+	
+
+	if (this->pastIterations.size() > 1)
+	{
+		past = this->pastIterations.back();
+		this->pastIterations.pop_back();
+	}
+	
+	else
+		past = {};
 	return past;
 }
 
@@ -68,4 +77,15 @@ vector<int> GOL::makePattern(vector<vector<int>>pattern)
 		alive.push_back(id);
 	}
 	return alive;
+}
+
+vector<int>GOL::checkCurrent()
+{
+	vector<int>current;
+
+	for (auto&c : this->board.cells)
+		if (c.isAlive())
+			current.push_back(c.id);
+
+	return current;
 }

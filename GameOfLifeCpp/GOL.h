@@ -34,4 +34,6 @@ public:
 	bool firstIter();
 
 	vector<int>makePattern(vector<vector<int>>pattern);
+
+	vector<int>checkCurrent();
 };
