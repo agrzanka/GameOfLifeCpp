@@ -1,6 +1,9 @@
 #pragma once
+#include<windows.h>
 #include "GOL.h"
 #include <stdlib.h>
+//#include<sysinfoapi.h>
+
 
 namespace GameOfLifeCpp {
 
@@ -81,6 +84,8 @@ namespace GameOfLifeCpp {
 			static Timer^timer;
 
 	private: System::Windows::Forms::Button^  button11;
+	private: System::Windows::Forms::TextBox^  textBox1;
+	private: System::Windows::Forms::Label^  label8;
 
 	protected:
 
@@ -120,6 +125,8 @@ namespace GameOfLifeCpp {
 			this->button9 = (gcnew System::Windows::Forms::Button());
 			this->button10 = (gcnew System::Windows::Forms::Button());
 			this->button11 = (gcnew System::Windows::Forms::Button());
+			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
+			this->label8 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
@@ -379,11 +386,34 @@ namespace GameOfLifeCpp {
 			this->button11->UseVisualStyleBackColor = true;
 			this->button11->Click += gcnew System::EventHandler(this, &MyForm::button11_Click);
 			// 
+			// textBox1
+			// 
+			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->textBox1->Location = System::Drawing::Point(1227, 694);
+			this->textBox1->Name = L"textBox1";
+			this->textBox1->ReadOnly = true;
+			this->textBox1->Size = System::Drawing::Size(100, 28);
+			this->textBox1->TabIndex = 23;
+			// 
+			// label8
+			// 
+			this->label8->AutoSize = true;
+			this->label8->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label8->Location = System::Drawing::Point(1134, 697);
+			this->label8->Name = L"label8";
+			this->label8->Size = System::Drawing::Size(87, 24);
+			this->label8->TabIndex = 24;
+			this->label8->Text = L"RAM info";
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->label8);
+			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button11);
 			this->Controls->Add(this->button10);
 			this->Controls->Add(this->button9);
@@ -438,6 +468,10 @@ namespace GameOfLifeCpp {
 				}
 			}
 		GameOfLife.board.update();
+		MEMORYSTATUSEX statex;
+		statex.dwLength = sizeof(statex);
+		GlobalMemoryStatusEx(&statex);
+		textBox1->Text = (statex.ullAvailPhys / (1024 * 1024)).ToString();
 	}
 //---------------------------------START BUTTON---------------------------------------------------------
 	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
