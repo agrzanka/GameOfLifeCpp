@@ -2,7 +2,7 @@
 #include<windows.h>
 #include "GOL.h"
 #include <stdlib.h>
-//#include<sysinfoapi.h>
+#include <algorithm>
 
 
 namespace GameOfLifeCpp {
@@ -702,6 +702,12 @@ private: System::Void pictureBox1_Click(System::Object^  sender, System::EventAr
 			int id = (me->X / GameOfLife.size) + ((me->Y / GameOfLife.size)*GameOfLife.board.b);
 			if (!GameOfLife.board.cells[id].isAlive())
 				alive.push_back(id);
+			else
+			{
+				std::vector<int>::iterator position = std::find(alive.begin(), alive.end(), id);
+				if (position != alive.end())
+					alive.erase(position);
+			}
 				
 			
 			GameOfLife.board.init(alive);

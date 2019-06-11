@@ -1,4 +1,6 @@
 #pragma once
+#include "GOL.h"
+
 
 class RLE {
 
