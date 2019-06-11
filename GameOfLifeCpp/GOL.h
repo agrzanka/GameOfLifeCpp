@@ -19,11 +19,9 @@ public:
 
 	bool active;
 	int size;
-	GOL();
 
 	void setBoard(int height, int width);
 
-	void draw( Graphics graphics);
 
 	void setSize(int size);
 	void setActive(bool a);

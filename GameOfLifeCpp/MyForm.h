@@ -415,6 +415,7 @@ namespace GameOfLifeCpp {
 			// 
 			// textBox1
 			// 
+			this->textBox1->Enabled = false;
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
 			this->textBox1->Location = System::Drawing::Point(1247, 694);
@@ -517,15 +518,7 @@ namespace GameOfLifeCpp {
 	}
 //---------------------------------START BUTTON---------------------------------------------------------
 	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
-		//GameOfLife.setActive(true); 
-
-		//int i = 10;
-		//while (GameOfLife.active == true)
-		//{
-		//	graphics->FillRectangle(brush, i, i, GameOfLife.size, GameOfLife.size);
-		//	i += 20;
-		//	_sleep(300);
-		//}
+		
 		manualMode = false;
 		button1->Enabled = false;
 		button2->Enabled = false;
@@ -599,14 +592,10 @@ namespace GameOfLifeCpp {
 		FPS=(FPS>maxFPS)?maxFPS:FPS;
 		timer->Interval = (1000 / FPS);
 		numericUpDown3->Value = FPS;
-		
-		//std::vector<int>alive = {2,13,21,22,23};
-		//GameOfLife.board.init(alive);
 	}
 
 	//--------------------------STOP BUTTON------------------------------------------------
 	private: System::Void button9_Click(System::Object^  sender, System::EventArgs^  e) {
-		//GameOfLife.setActive(false);
 		timer->Stop();
 		button1->Enabled = true;
 		button2->Enabled = true;
@@ -732,7 +721,6 @@ private: System::Void pictureBox1_Click(System::Object^  sender, System::EventAr
 						graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
 					}
 				}
-			//zarodkowanie.drawResult(width, height, graphics, brush, z);
 		}
 	}
 }
