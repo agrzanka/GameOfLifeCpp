@@ -38,6 +38,17 @@ namespace GameOfLifeCpp {
 			this->timer = gcnew Timer();
 			this->timer->Tick += gcnew System::EventHandler(this, &MyForm::onTimedEvent);
 			this->timer->Interval = 1000;
+
+			button1->Enabled = false;
+			button2->Enabled = false;
+			button3->Enabled = false;
+			button4->Enabled = false;
+			button5->Enabled = false;
+			button6->Enabled = false;
+			button7->Enabled = false;
+			button8->Enabled = false;
+			button9->Enabled = false;
+			button10->Enabled = false;
 		}
 
 	protected:
@@ -86,6 +97,7 @@ namespace GameOfLifeCpp {
 	private: System::Windows::Forms::Button^  button11;
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::Label^  label8;
+	private: System::Windows::Forms::Label^  label9;
 
 	protected:
 
@@ -127,6 +139,7 @@ namespace GameOfLifeCpp {
 			this->button11 = (gcnew System::Windows::Forms::Button());
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
+			this->label9 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
@@ -390,10 +403,10 @@ namespace GameOfLifeCpp {
 			// 
 			this->textBox1->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
 				static_cast<System::Byte>(238)));
-			this->textBox1->Location = System::Drawing::Point(1227, 694);
+			this->textBox1->Location = System::Drawing::Point(1247, 694);
 			this->textBox1->Name = L"textBox1";
 			this->textBox1->ReadOnly = true;
-			this->textBox1->Size = System::Drawing::Size(100, 28);
+			this->textBox1->Size = System::Drawing::Size(85, 28);
 			this->textBox1->TabIndex = 23;
 			// 
 			// label8
@@ -403,15 +416,27 @@ namespace GameOfLifeCpp {
 				static_cast<System::Byte>(238)));
 			this->label8->Location = System::Drawing::Point(1134, 697);
 			this->label8->Name = L"label8";
-			this->label8->Size = System::Drawing::Size(87, 24);
+			this->label8->Size = System::Drawing::Size(92, 24);
 			this->label8->TabIndex = 24;
-			this->label8->Text = L"RAM info";
+			this->label8->Text = L"RAM info:";
+			// 
+			// label9
+			// 
+			this->label9->AutoSize = true;
+			this->label9->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->label9->Location = System::Drawing::Point(1333, 697);
+			this->label9->Name = L"label9";
+			this->label9->Size = System::Drawing::Size(66, 24);
+			this->label9->TabIndex = 25;
+			this->label9->Text = L"MB left";
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->textBox1);
 			this->Controls->Add(this->button11);
@@ -503,6 +528,15 @@ namespace GameOfLifeCpp {
 
 //-------------------------------SETTING THE BOARD BUTTON-----------------------------------------------
 	private: System::Void button11_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		button1->Enabled = true;
+		button2->Enabled = true;
+		button3->Enabled = true;
+		button4->Enabled = true;
+		button5->Enabled = true;
+		button6->Enabled = true;
+		button7->Enabled = true;
+		button8->Enabled = true;
 
 		pictureBox1->Refresh();
 
