@@ -261,6 +261,7 @@ namespace GameOfLifeCpp {
 			this->button1->TabIndex = 10;
 			this->button1->Text = L"manual mode";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
 			// 
 			// button2
 			// 
@@ -272,6 +273,7 @@ namespace GameOfLifeCpp {
 			this->button2->TabIndex = 11;
 			this->button2->Text = L"bee-hieve";
 			this->button2->UseVisualStyleBackColor = true;
+			this->button2->Click += gcnew System::EventHandler(this, &MyForm::button2_Click);
 			// 
 			// button3
 			// 
@@ -283,6 +285,7 @@ namespace GameOfLifeCpp {
 			this->button3->TabIndex = 12;
 			this->button3->Text = L"blinker";
 			this->button3->UseVisualStyleBackColor = true;
+			this->button3->Click += gcnew System::EventHandler(this, &MyForm::button3_Click);
 			// 
 			// label6
 			// 
@@ -305,6 +308,7 @@ namespace GameOfLifeCpp {
 			this->button4->TabIndex = 14;
 			this->button4->Text = L"glider";
 			this->button4->UseVisualStyleBackColor = true;
+			this->button4->Click += gcnew System::EventHandler(this, &MyForm::button4_Click);
 			// 
 			// button5
 			// 
@@ -316,6 +320,7 @@ namespace GameOfLifeCpp {
 			this->button5->TabIndex = 15;
 			this->button5->Text = L"copperhead";
 			this->button5->UseVisualStyleBackColor = true;
+			this->button5->Click += gcnew System::EventHandler(this, &MyForm::button5_Click);
 			// 
 			// button6
 			// 
@@ -327,6 +332,7 @@ namespace GameOfLifeCpp {
 			this->button6->TabIndex = 16;
 			this->button6->Text = L"gosper glider gun";
 			this->button6->UseVisualStyleBackColor = true;
+			this->button6->Click += gcnew System::EventHandler(this, &MyForm::button6_Click);
 			// 
 			// label7
 			// 
@@ -349,6 +355,7 @@ namespace GameOfLifeCpp {
 			this->button7->TabIndex = 18;
 			this->button7->Text = L"crown bee suttle";
 			this->button7->UseVisualStyleBackColor = true;
+			this->button7->Click += gcnew System::EventHandler(this, &MyForm::button7_Click);
 			// 
 			// button8
 			// 
@@ -540,7 +547,10 @@ namespace GameOfLifeCpp {
 		button5->Enabled = true;
 		button6->Enabled = true;
 		button7->Enabled = true;
-		button8->Enabled = true;
+		button8->Enabled = false;
+		button9->Enabled = false;
+		button10->Enabled = false;
+		
 
 		pictureBox1->Refresh();
 
@@ -584,8 +594,8 @@ namespace GameOfLifeCpp {
 		timer->Interval = (1000 / FPS);
 		numericUpDown3->Value = FPS;
 		
-		std::vector<int>alive = {2,13,21,22,23};
-		GameOfLife.board.init(alive);
+		//std::vector<int>alive = {2,13,21,22,23};
+		//GameOfLife.board.init(alive);
 	}
 
 	//--------------------------STOP BUTTON------------------------------------------------
@@ -605,6 +615,7 @@ namespace GameOfLifeCpp {
 
 		button9->Enabled = false;
 	}
+			 //back button
 	private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		GameOfLife.board.init(GameOfLife.getPastIteration());
@@ -628,5 +639,47 @@ namespace GameOfLifeCpp {
 		if (GameOfLife.firstIter())
 			button10->Enabled = false;
 	}
+			 //manual mode button
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+	button8->Enabled = true;
+}
+
+//-----------------------------bee-hieve-------------------------------------------------
+private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+	std::vector<vector<int>>pattern = { {2,1},{3,1},{1,2},{4,2},{2,3},{3,3} };
+	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	GameOfLife.board.init(alive);
+	button8->Enabled = true;
+}
+
+//-------------------------------blinker-------------------------------------------------
+private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
+	std::vector<vector<int>>pattern = { {1,2},{2,2},{3,2}};
+	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	GameOfLife.board.init(alive);
+	button8->Enabled = true;
+}
+
+//--------------------------------glider-----------------------------------------------
+private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
+	std::vector<vector<int>>pattern = { {2,1},{3,2},{1,3},{2,3},{3,3} };
+	std::vector<int>alive = GameOfLife.makePattern(pattern);
+	GameOfLife.board.init(alive);
+	button8->Enabled = true;
+}
+
+		 //cooperhead
+private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+	button8->Enabled = true;
+}
+
+		 //gosper glider gun
+private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+	button8->Enabled = true;
+}
+		 //crown bee suttle
+private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+	button8->Enabled = true;
+}
 };
 }

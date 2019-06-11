@@ -32,4 +32,6 @@ public:
 	vector<int> getPastIteration();
 
 	bool firstIter();
+
+	vector<int>makePattern(vector<vector<int>>pattern);
 };

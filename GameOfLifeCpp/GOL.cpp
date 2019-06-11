@@ -57,3 +57,15 @@ bool GOL::firstIter()
 	else
 		return false;
 }
+
+vector<int> GOL::makePattern(vector<vector<int>>pattern)
+{
+	vector<int>alive;
+
+	for (auto&p : pattern)
+	{
+		int id = p[0] + p[1] * this->board.b;
+		alive.push_back(id);
+	}
+	return alive;
+}
