@@ -137,6 +137,7 @@
     <ClCompile Include="Cell.cpp" />
     <ClCompile Include="GOL.cpp" />
     <ClCompile Include="MyForm.cpp" />
+    <ClCompile Include="RLE.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Board.h" />
@@ -145,6 +146,7 @@
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
+    <ClInclude Include="RLE.h" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="MyForm.resx">
