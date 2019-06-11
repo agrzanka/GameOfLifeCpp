@@ -99,6 +99,7 @@ namespace GameOfLifeCpp {
 	private: System::Windows::Forms::Label^  label8;
 	private: System::Windows::Forms::Label^  label9;
 
+
 	protected:
 
 	private:
@@ -386,6 +387,7 @@ namespace GameOfLifeCpp {
 			this->button10->TabIndex = 21;
 			this->button10->Text = L"<";
 			this->button10->UseVisualStyleBackColor = true;
+			this->button10->Click += gcnew System::EventHandler(this, &MyForm::button10_Click);
 			// 
 			// button11
 			// 
@@ -497,6 +499,8 @@ namespace GameOfLifeCpp {
 		statex.dwLength = sizeof(statex);
 		GlobalMemoryStatusEx(&statex);
 		textBox1->Text = (statex.ullAvailPhys / (1024 * 1024)).ToString();
+
+		GameOfLife.addIterationInfo(GameOfLife.board.getAlive());
 	}
 //---------------------------------START BUTTON---------------------------------------------------------
 	private: System::Void button8_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -580,7 +584,7 @@ namespace GameOfLifeCpp {
 		timer->Interval = (1000 / FPS);
 		numericUpDown3->Value = FPS;
 		
-		std::vector<int>alive = {13,14,15};
+		std::vector<int>alive = {2,13,21,22,23};
 		GameOfLife.board.init(alive);
 	}
 
@@ -600,6 +604,29 @@ namespace GameOfLifeCpp {
 		button11->Enabled = true;
 
 		button9->Enabled = false;
+	}
+	private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		GameOfLife.board.init(GameOfLife.getPastIteration());
+
+		pictureBox1->Refresh();
+		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+		for (int y = 0; y < GameOfLife.board.a; y++)
+			for (int x = 0; x < GameOfLife.board.b; x++)
+			{
+				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+				{
+					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+				}
+			}
+
+		if (GameOfLife.firstIter())
+			button10->Enabled = false;
 	}
 };
 }

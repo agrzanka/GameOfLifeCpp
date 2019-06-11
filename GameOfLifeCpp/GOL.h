@@ -11,6 +11,7 @@ using namespace System::Drawing;
 
 class GOL {
 
+	vector<vector<int>>pastIterations;
 	
 public:
 	
@@ -26,4 +27,9 @@ public:
 
 	void setSize(int size);
 	void setActive(bool a);
+
+	void addIterationInfo(vector<int> info);
+	vector<int> getPastIteration();
+
+	bool firstIter();
 };

@@ -7,7 +7,7 @@ using namespace std;
 class Board {
 
 private:
-	
+	vector<int>aliveInIteration;
 
 public:
 	Board();
@@ -20,4 +20,7 @@ public:
 	void show();
 	void init(vector<int>alive);
 	void setup();
+
+	vector<int>getAlive();
+
 };

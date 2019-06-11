@@ -34,3 +34,26 @@ void GOL::setActive(bool a)
 {
 	this->active = a;
 }
+
+void GOL::addIterationInfo(vector<int>info)
+{
+	if (this->pastIterations.size() >= 100)
+		this->pastIterations.erase(this->pastIterations.begin());
+
+	this->pastIterations.push_back(info);
+}
+
+vector<int> GOL::getPastIteration()
+{
+	vector<int> past = this->pastIterations.back();
+	this->pastIterations.pop_back();
+	return past;
+}
+
+bool GOL::firstIter()
+{
+	if (this->pastIterations.size() < 1)
+		return true;
+	else
+		return false;
+}

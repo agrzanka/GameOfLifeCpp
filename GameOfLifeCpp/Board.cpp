@@ -48,7 +48,12 @@ void Board::update()
 
 		else if (c.isAlive() && (nA > 3 || nA < 2))
 			nextRoundDead.push_back(c.id);
+
+		else if (c.isAlive() && (nA == 3 || nA == 2))
+			nextRoundAlive.push_back(c.id);
 	}
+
+	this->aliveInIteration = nextRoundAlive;
 
 	for (auto&c : cells)
 	{
@@ -97,6 +102,14 @@ void Board::show()
 
 void Board::init(vector<int>alive)
 {
+	for (auto&c : cells)
+		c.setLife(false);
+
 	for (auto&i : alive)
 		cells[i].setLife(true);
+}
+
+vector<int>Board::getAlive()
+{
+	return this->aliveInIteration;
 }
