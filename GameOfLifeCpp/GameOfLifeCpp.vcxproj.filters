@@ -53,4 +53,9 @@
       <Filter>Pliki zasobów</Filter>
     </EmbeddedResource>
   </ItemGroup>
+  <ItemGroup>
+    <None Include="copperhead.rle" />
+    <None Include="gosperGliderGun.rle" />
+    <None Include="gueenBeeSuttle.rle" />
+  </ItemGroup>
 </Project>

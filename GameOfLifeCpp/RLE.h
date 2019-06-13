@@ -8,5 +8,5 @@ public:
 
 	void encode(vector<int>status);
 
-	vector<int> decode();
+	vector<int> decode(vector<string> lines, int width);
 };

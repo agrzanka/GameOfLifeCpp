@@ -1,6 +1,7 @@
 #pragma once
 #include<windows.h>
 #include "GOL.h"
+#include "RLE.h"
 #include <stdlib.h>
 #include <algorithm>
 
@@ -18,6 +19,7 @@ namespace GameOfLifeCpp {
 	/// Podsumowanie informacji o MyForm
 	/// </summary>
 	GOL GameOfLife;
+	RLE rle;
 	bool manualMode = false;
 
 	std::vector<int>alive = {};
@@ -346,9 +348,9 @@ namespace GameOfLifeCpp {
 				static_cast<System::Byte>(238)));
 			this->label7->Location = System::Drawing::Point(1033, 393);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(106, 18);
+			this->label7->Size = System::Drawing::Size(76, 18);
 			this->label7->TabIndex = 17;
-			this->label7->Text = L"from RLE files:";
+			this->label7->Text = L"from RLE:";
 			// 
 			// button7
 			// 
@@ -358,7 +360,7 @@ namespace GameOfLifeCpp {
 			this->button7->Name = L"button7";
 			this->button7->Size = System::Drawing::Size(204, 36);
 			this->button7->TabIndex = 18;
-			this->button7->Text = L"crown bee suttle";
+			this->button7->Text = L"queen bee suttle";
 			this->button7->UseVisualStyleBackColor = true;
 			this->button7->Click += gcnew System::EventHandler(this, &MyForm::button7_Click);
 			// 
@@ -495,11 +497,7 @@ namespace GameOfLifeCpp {
 
 		GameOfLife.board.update();
 		pictureBox1->Refresh();
-		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+		
 
 		for (int y = 0; y < GameOfLife.board.a; y++)
 			for (int x = 0; x < GameOfLife.board.b; x++)
@@ -614,7 +612,7 @@ namespace GameOfLifeCpp {
 		GameOfLife.getPastIteration();
 
 	}
-			 //back button
+	//-----------------------------back button-----------------------------------------------
 	private: System::Void button10_Click(System::Object^  sender, System::EventArgs^  e) {
 
 		GameOfLife.board.init(GameOfLife.getPastIteration());
@@ -643,6 +641,11 @@ namespace GameOfLifeCpp {
 		button8->Enabled = true;
 		manualMode = true;
 
+		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
 	}
 //-----------------------------bee-hieve-------------------------------------------------
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -652,6 +655,22 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 	button8->Enabled = true;
 
 	GameOfLife.addIterationInfo(alive);
+
+	pictureBox1->Refresh();
+	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+	for (int y = 0; y < GameOfLife.board.a; y++)
+		for (int x = 0; x < GameOfLife.board.b; x++)
+		{
+			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+			{
+				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+			}
+		}
 }
 
 //-------------------------------blinker-------------------------------------------------
@@ -662,6 +681,22 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 	button8->Enabled = true;
 
 	GameOfLife.addIterationInfo(alive);
+
+	pictureBox1->Refresh();
+	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+	for (int y = 0; y < GameOfLife.board.a; y++)
+		for (int x = 0; x < GameOfLife.board.b; x++)
+		{
+			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+			{
+				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+			}
+		}
 }
 
 //--------------------------------glider-----------------------------------------------
@@ -672,21 +707,117 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 	button8->Enabled = true;
 
 	GameOfLife.addIterationInfo(alive);
+
+
+	pictureBox1->Refresh();
+	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+	for (int y = 0; y < GameOfLife.board.a; y++)
+		for (int x = 0; x < GameOfLife.board.b; x++)
+		{
+			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+			{
+				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+			}
+		}
 }
 
 		 //cooperhead
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+	//RLE format:
+	vector<string>pattern = { "12F","5F2T5F","4F4T4F","12F","3F6T3F","4F4T4F","12F","3F2T2F2T3F","1F2T1F1T2F1T1F2T1F","4F1T2F1T4F","12F","12F",
+								"5F2T5F","5F2T5F","12F" };
+
+	alive = rle.decode(pattern, GameOfLife.board.b);
+
+	GameOfLife.board.init(alive);
 	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
+
+
+	pictureBox1->Refresh();
+	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+	for (int y = 0; y < GameOfLife.board.a; y++)
+		for (int x = 0; x < GameOfLife.board.b; x++)
+		{
+			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+			{
+				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+			}
+		}
 }
 
-		 //gosper glider gun
+//-------------------------------gosper glider gun-----------------------------------------
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+	//RLE format:
+	vector<string>pattern = { "38F","25F1T12F","23F1T1F1T12F","13F2T6F2T12F2T1F","12F1T3F1T4F2T12F2T1F","1F2T8F1T5F1T3F2T15F",
+							"1F2T8F1T3F1T1F2T4F1T1F1T12F","11F1T5F1T7F1T12F","12F1T3F1T21F","13F2T23F","38F" };
+
+	alive = rle.decode(pattern, GameOfLife.board.b);
+
+	GameOfLife.board.init(alive);
 	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
+
+
+	pictureBox1->Refresh();
+	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+	for (int y = 0; y < GameOfLife.board.a; y++)
+		for (int x = 0; x < GameOfLife.board.b; x++)
+		{
+			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+			{
+				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+			}
+		}
 }
-		 //crown bee suttle
-private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
-	button8->Enabled = true;
-}
+//--------------------------------queen bee suttle-----------------------------------------
+	private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+		//RLE format:
+		vector<string>pattern = { "24F","13F2T9F","12F1T3F1T7F","11F1T5F1T6F","1F2T8F1T3F1T1F2T2F2T1F","1F2T8F1T5F1T3F2T1F",
+								"12F1T3F1T7F","13F2T9F","24F" };
+
+		alive = rle.decode(pattern, GameOfLife.board.b);
+
+		GameOfLife.board.init(alive);
+		button8->Enabled = true;
+
+		GameOfLife.addIterationInfo(alive);
+
+
+		pictureBox1->Refresh();
+		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+		for (int y = 0; y < GameOfLife.board.a; y++)
+			for (int x = 0; x < GameOfLife.board.b; x++)
+			{
+				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+				{
+					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+				}
+			}
+	}
+
 private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
 	if (manualMode == true)
 	{
