@@ -553,9 +553,7 @@ namespace GameOfLifeCpp {
 
 		int nW= (int)numericUpDown1->Value;
 		int nH = (int)numericUpDown2->Value;
-		//GameOfLife.setBoard(nH,nW);
 
-		//int cellSize= ((pictureBox1->Width/nW) > (pictureBox1->Height/nH)) ? (pictureBox1->Height / nH) : (pictureBox1->Width / nW);
 		int cellSize = ((width/ nW) > (height / nH)) ? (height / nH) : (width / nW);
 		GameOfLife.setSize(cellSize);
 		pictureBox1->Width = cellSize * nW;
@@ -569,21 +567,8 @@ namespace GameOfLifeCpp {
 
 		DateTime start = DateTime::Now;
 
-		for (int it = 0; it < pictureBox1->Width; it += cellSize)
-			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+		this->draw();
 
-		for (int it = 0; it < pictureBox1->Height; it += cellSize)
-			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-		GameOfLife.board.update();
-		for (int y = 0; y < GameOfLife.board.a; y++)
-			for (int x = 0; x < GameOfLife.board.b; x++)
-			{
-				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-				{
-					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-				}
-			}
 		DateTime stop = DateTime::Now;
 		TimeSpan t = stop - start;
 		int maxFPS = 1000 / t.TotalMilliseconds;
@@ -617,21 +602,7 @@ namespace GameOfLifeCpp {
 
 		GameOfLife.board.init(GameOfLife.getPastIteration());
 
-		pictureBox1->Refresh();
-		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-		for (int y = 0; y < GameOfLife.board.a; y++)
-			for (int x = 0; x < GameOfLife.board.b; x++)
-			{
-				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-				{
-					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-				}
-			}
+		this->draw();
 
 		if (GameOfLife.firstIter())
 			button10->Enabled = false;
@@ -656,21 +627,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 
 	GameOfLife.addIterationInfo(alive);
 
-	pictureBox1->Refresh();
-	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-	for (int y = 0; y < GameOfLife.board.a; y++)
-		for (int x = 0; x < GameOfLife.board.b; x++)
-		{
-			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-			{
-				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-			}
-		}
+	this->draw();
 }
 
 //-------------------------------blinker-------------------------------------------------
@@ -682,21 +639,7 @@ private: System::Void button3_Click(System::Object^  sender, System::EventArgs^ 
 
 	GameOfLife.addIterationInfo(alive);
 
-	pictureBox1->Refresh();
-	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-	for (int y = 0; y < GameOfLife.board.a; y++)
-		for (int x = 0; x < GameOfLife.board.b; x++)
-		{
-			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-			{
-				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-			}
-		}
+	this->draw();
 }
 
 //--------------------------------glider-----------------------------------------------
@@ -708,22 +651,7 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 
 	GameOfLife.addIterationInfo(alive);
 
-
-	pictureBox1->Refresh();
-	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-	for (int y = 0; y < GameOfLife.board.a; y++)
-		for (int x = 0; x < GameOfLife.board.b; x++)
-		{
-			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-			{
-				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-			}
-		}
+	this->draw();
 }
 
 		 //cooperhead
@@ -739,22 +667,7 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 
 	GameOfLife.addIterationInfo(alive);
 
-
-	pictureBox1->Refresh();
-	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-	for (int y = 0; y < GameOfLife.board.a; y++)
-		for (int x = 0; x < GameOfLife.board.b; x++)
-		{
-			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-			{
-				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-			}
-		}
+	this->draw();
 }
 
 //-------------------------------gosper glider gun-----------------------------------------
@@ -770,22 +683,7 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 
 	GameOfLife.addIterationInfo(alive);
 
-
-	pictureBox1->Refresh();
-	for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-		graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-	for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-		graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-	for (int y = 0; y < GameOfLife.board.a; y++)
-		for (int x = 0; x < GameOfLife.board.b; x++)
-		{
-			if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-			{
-				graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-			}
-		}
+	this->draw();
 }
 //--------------------------------queen bee suttle-----------------------------------------
 	private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -800,22 +698,7 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 
 		GameOfLife.addIterationInfo(alive);
 
-
-		pictureBox1->Refresh();
-		for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-			graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-		for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-			graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-		for (int y = 0; y < GameOfLife.board.a; y++)
-			for (int x = 0; x < GameOfLife.board.b; x++)
-			{
-				if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-				{
-					graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-				}
-			}
+		this->draw();
 	}
 
 private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -843,23 +726,29 @@ private: System::Void pictureBox1_Click(System::Object^  sender, System::EventAr
 			
 			GameOfLife.board.init(alive);
 
-			pictureBox1->Refresh();
-			for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
-				graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
-
-			for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
-				graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
-
-			for (int y = 0; y < GameOfLife.board.a; y++)
-				for (int x = 0; x < GameOfLife.board.b; x++)
-				{
-					if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
-					{
-						graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
-					}
-				}
+			this->draw();
 		}
 	}
 }
+
+//==========================================DRAW FULL BOARD FUNCTION====================================================
+		 private: void draw()
+		 {
+			 pictureBox1->Refresh();
+			 for (int it = 0; it < pictureBox1->Width; it += GameOfLife.size)
+				 graphics->DrawLine(pen, it, 0, it, pictureBox1->Height);
+
+			 for (int it = 0; it < pictureBox1->Height; it += GameOfLife.size)
+				 graphics->DrawLine(pen, 0, it, pictureBox1->Width, it);
+
+			 for (int y = 0; y < GameOfLife.board.a; y++)
+				 for (int x = 0; x < GameOfLife.board.b; x++)
+				 {
+					 if (GameOfLife.board.cells[y*GameOfLife.board.b + x].isAlive())
+					 {
+						 graphics->FillRectangle(brush, x*GameOfLife.size, y*GameOfLife.size, GameOfLife.size, GameOfLife.size);
+					 }
+				 }
+		 }
 };
 }
