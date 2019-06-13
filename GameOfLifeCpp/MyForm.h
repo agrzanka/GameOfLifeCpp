@@ -654,8 +654,46 @@ private: System::Void button4_Click(System::Object^  sender, System::EventArgs^ 
 	this->draw();
 }
 
-		 //cooperhead
+//---------------------------------cooperhead----------------------------------------------------------------------
 private: System::Void button5_Click(System::Object^  sender, System::EventArgs^  e) {
+
+	if (GameOfLife.board.a < 15 || GameOfLife.board.b < 12)
+	{
+		if (MessageBox::Show("For COPPERHEAD pattern you need at least 12x15 board. Do you want to change it?", "BOARD TOO SMALL!",
+			MessageBoxButtons::YesNo, MessageBoxIcon::Question) == Windows::Forms::DialogResult::Yes)
+		{
+			numericUpDown1->Value = 12;
+			numericUpDown2->Value = 15;
+
+			int nW = (int)numericUpDown1->Value;
+			int nH = (int)numericUpDown2->Value;
+
+			int cellSize = ((width / nW) > (height / nH)) ? (height / nH) : (width / nW);
+			GameOfLife.setSize(cellSize);
+			pictureBox1->Width = cellSize * nW;
+			pictureBox1->Height = cellSize * nH;
+
+			GameOfLife.setBoard(nH, nW);
+
+			pictureBox1->Refresh();
+
+			int FPS = (int)numericUpDown3->Value;
+
+			DateTime start = DateTime::Now;
+
+			this->draw();
+
+			DateTime stop = DateTime::Now;
+			TimeSpan t = stop - start;
+			int maxFPS = 1000 / t.TotalMilliseconds;
+			FPS = (FPS > maxFPS) ? maxFPS : FPS;
+			timer->Interval = (1000 / FPS);
+			numericUpDown3->Value = FPS;
+		}
+		else
+			return;
+	}
+
 	//RLE format:
 	vector<string>pattern = { "12F","5F2T5F","4F4T4F","12F","3F6T3F","4F4T4F","12F","3F2T2F2T3F","1F2T1F1T2F1T1F2T1F","4F1T2F1T4F","12F","12F",
 								"5F2T5F","5F2T5F","12F" };
@@ -672,6 +710,43 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 
 //-------------------------------gosper glider gun-----------------------------------------
 private: System::Void button6_Click(System::Object^  sender, System::EventArgs^  e) {
+	if (GameOfLife.board.a < 11 || GameOfLife.board.b < 38)
+	{
+		if (MessageBox::Show("For GOSPER GLIDER GUN pattern you need at least 38x11 board. Do you want to change it?", "BOARD TOO SMALL!",
+			MessageBoxButtons::YesNo, MessageBoxIcon::Question) == Windows::Forms::DialogResult::Yes)
+		{
+			numericUpDown1->Value = 38;
+			numericUpDown2->Value = 11;
+
+			int nW = (int)numericUpDown1->Value;
+			int nH = (int)numericUpDown2->Value;
+
+			int cellSize = ((width / nW) > (height / nH)) ? (height / nH) : (width / nW);
+			GameOfLife.setSize(cellSize);
+			pictureBox1->Width = cellSize * nW;
+			pictureBox1->Height = cellSize * nH;
+
+			GameOfLife.setBoard(nH, nW);
+
+			pictureBox1->Refresh();
+
+			int FPS = (int)numericUpDown3->Value;
+
+			DateTime start = DateTime::Now;
+
+			this->draw();
+
+			DateTime stop = DateTime::Now;
+			TimeSpan t = stop - start;
+			int maxFPS = 1000 / t.TotalMilliseconds;
+			FPS = (FPS > maxFPS) ? maxFPS : FPS;
+			timer->Interval = (1000 / FPS);
+			numericUpDown3->Value = FPS;
+		}
+		else
+			return;
+	}
+
 	//RLE format:
 	vector<string>pattern = { "38F","25F1T12F","23F1T1F1T12F","13F2T6F2T12F2T1F","12F1T3F1T4F2T12F2T1F","1F2T8F1T5F1T3F2T15F",
 							"1F2T8F1T3F1T1F2T4F1T1F1T12F","11F1T5F1T7F1T12F","12F1T3F1T21F","13F2T23F","38F" };
@@ -685,8 +760,46 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 
 	this->draw();
 }
-//--------------------------------queen bee suttle-----------------------------------------
+//--------------------------------queen bee shuttle-----------------------------------------
 	private: System::Void button7_Click(System::Object^  sender, System::EventArgs^  e) {
+
+		if (GameOfLife.board.a < 10 || GameOfLife.board.b < 24)
+		{
+			if (MessageBox::Show("For QUEEN BEE SHUTTLE pattern you need at least 24x10 board. Do you want to change it?", "BOARD TOO SMALL!",
+				MessageBoxButtons::YesNo, MessageBoxIcon::Question) == Windows::Forms::DialogResult::Yes)
+			{
+				numericUpDown1->Value = 24;
+				numericUpDown2->Value = 10;
+
+				int nW = (int)numericUpDown1->Value;
+				int nH = (int)numericUpDown2->Value;
+
+				int cellSize = ((width / nW) > (height / nH)) ? (height / nH) : (width / nW);
+				GameOfLife.setSize(cellSize);
+				pictureBox1->Width = cellSize * nW;
+				pictureBox1->Height = cellSize * nH;
+
+				GameOfLife.setBoard(nH, nW);
+
+				pictureBox1->Refresh();
+
+				int FPS = (int)numericUpDown3->Value;
+
+				DateTime start = DateTime::Now;
+
+				this->draw();
+
+				DateTime stop = DateTime::Now;
+				TimeSpan t = stop - start;
+				int maxFPS = 1000 / t.TotalMilliseconds;
+				FPS = (FPS > maxFPS) ? maxFPS : FPS;
+				timer->Interval = (1000 / FPS);
+				numericUpDown3->Value = FPS;
+			}
+			else
+				return;
+		}
+
 		//RLE format:
 		vector<string>pattern = { "24F","13F2T9F","12F1T3F1T7F","11F1T5F1T6F","1F2T8F1T3F1T1F2T2F2T1F","1F2T8F1T5F1T3F2T1F",
 								"12F1T3F1T7F","13F2T9F","24F" };
