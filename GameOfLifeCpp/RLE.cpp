@@ -47,3 +47,24 @@ vector<int>RLE::decode(vector<string>lines, int width)
 
 	return output;
 }
+
+vector<string> RLE::readfile(string filename)
+{
+	vector<string> lines;
+	string line;
+
+	fstream inputFile;
+	inputFile.open(filename, ios::in);
+	if (inputFile.good())
+	{
+		while (getline(inputFile, line))
+		{
+			lines.push_back(line);
+		}
+
+		inputFile.close();
+	}
+
+	return lines;
+
+}

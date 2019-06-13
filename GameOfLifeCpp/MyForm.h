@@ -4,6 +4,7 @@
 #include "RLE.h"
 #include <stdlib.h>
 #include <algorithm>
+#include <msclr\marshal_cppstd.h>
 
 
 namespace GameOfLifeCpp {
@@ -55,6 +56,7 @@ namespace GameOfLifeCpp {
 			button8->Enabled = false;
 			button9->Enabled = false;
 			button10->Enabled = false;
+			button12->Enabled = false;
 		}
 
 	protected:
@@ -104,6 +106,10 @@ namespace GameOfLifeCpp {
 	private: System::Windows::Forms::TextBox^  textBox1;
 	private: System::Windows::Forms::Label^  label8;
 	private: System::Windows::Forms::Label^  label9;
+	private: System::Windows::Forms::Button^  button12;
+	private: System::Windows::Forms::TextBox^  textBox2;
+	private: System::Windows::Forms::Label^  label10;
+	private: System::Windows::Forms::Label^  label11;
 
 
 	protected:
@@ -147,6 +153,10 @@ namespace GameOfLifeCpp {
 			this->textBox1 = (gcnew System::Windows::Forms::TextBox());
 			this->label8 = (gcnew System::Windows::Forms::Label());
 			this->label9 = (gcnew System::Windows::Forms::Label());
+			this->button12 = (gcnew System::Windows::Forms::Button());
+			this->textBox2 = (gcnew System::Windows::Forms::TextBox());
+			this->label10 = (gcnew System::Windows::Forms::Label());
+			this->label11 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown3))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->numericUpDown2))->BeginInit();
@@ -348,9 +358,9 @@ namespace GameOfLifeCpp {
 				static_cast<System::Byte>(238)));
 			this->label7->Location = System::Drawing::Point(1033, 393);
 			this->label7->Name = L"label7";
-			this->label7->Size = System::Drawing::Size(76, 18);
+			this->label7->Size = System::Drawing::Size(98, 18);
 			this->label7->TabIndex = 17;
-			this->label7->Text = L"from RLE:";
+			this->label7->Text = L"from RLE file:";
 			// 
 			// button7
 			// 
@@ -448,11 +458,53 @@ namespace GameOfLifeCpp {
 			this->label9->TabIndex = 25;
 			this->label9->Text = L"MB left";
 			// 
+			// button12
+			// 
+			this->button12->Font = (gcnew System::Drawing::Font(L"Microsoft Sans Serif", 10.8F, System::Drawing::FontStyle::Regular, System::Drawing::GraphicsUnit::Point,
+				static_cast<System::Byte>(238)));
+			this->button12->Location = System::Drawing::Point(1248, 456);
+			this->button12->Name = L"button12";
+			this->button12->Size = System::Drawing::Size(203, 36);
+			this->button12->TabIndex = 26;
+			this->button12->Text = L"custom";
+			this->button12->UseVisualStyleBackColor = true;
+			this->button12->Click += gcnew System::EventHandler(this, &MyForm::button12_Click);
+			// 
+			// textBox2
+			// 
+			this->textBox2->Location = System::Drawing::Point(1248, 499);
+			this->textBox2->Name = L"textBox2";
+			this->textBox2->Size = System::Drawing::Size(203, 22);
+			this->textBox2->TabIndex = 27;
+			// 
+			// label10
+			// 
+			this->label10->AutoSize = true;
+			this->label10->Location = System::Drawing::Point(1245, 524);
+			this->label10->Name = L"label10";
+			this->label10->Size = System::Drawing::Size(200, 17);
+			this->label10->TabIndex = 28;
+			this->label10->Text = L"make sure, that the board size";
+			// 
+			// label11
+			// 
+			this->label11->AutoSize = true;
+			this->label11->Location = System::Drawing::Point(1244, 541);
+			this->label11->Name = L"label11";
+			this->label11->Size = System::Drawing::Size(238, 17);
+			this->label11->TabIndex = 29;
+			this->label11->Text = L" is equal or larger than pattern size!!!";
+			this->label11->Click += gcnew System::EventHandler(this, &MyForm::label11_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(8, 16);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1482, 753);
+			this->Controls->Add(this->label11);
+			this->Controls->Add(this->label10);
+			this->Controls->Add(this->textBox2);
+			this->Controls->Add(this->button12);
 			this->Controls->Add(this->label9);
 			this->Controls->Add(this->label8);
 			this->Controls->Add(this->textBox1);
@@ -528,6 +580,7 @@ namespace GameOfLifeCpp {
 		button8->Enabled = false;
 		button10->Enabled = false;
 		button11->Enabled = false;
+		button12->Enabled = false;
 
 		button9->Enabled = true;
 
@@ -547,6 +600,7 @@ namespace GameOfLifeCpp {
 		button8->Enabled = false;
 		button9->Enabled = false;
 		button10->Enabled = false;
+		button12->Enabled = true;
 		
 
 		pictureBox1->Refresh();
@@ -575,6 +629,7 @@ namespace GameOfLifeCpp {
 		FPS=(FPS>maxFPS)?maxFPS:FPS;
 		timer->Interval = (1000 / FPS);
 		numericUpDown3->Value = FPS;
+
 	}
 
 	//--------------------------STOP BUTTON------------------------------------------------
@@ -590,6 +645,7 @@ namespace GameOfLifeCpp {
 		button8->Enabled = true;
 		button10->Enabled = true;
 		button11->Enabled = true;
+		button12->Enabled = true;
 
 		button9->Enabled = false;
 
@@ -694,10 +750,8 @@ private: System::Void button5_Click(System::Object^  sender, System::EventArgs^ 
 			return;
 	}
 
-	//RLE format:
-	vector<string>pattern = { "12F","5F2T5F","4F4T4F","12F","3F6T3F","4F4T4F","12F","3F2T2F2T3F","1F2T1F1T2F1T1F2T1F","4F1T2F1T4F","12F","12F",
-								"5F2T5F","5F2T5F","12F" };
-
+	//RLE file format:
+	vector<string> pattern = rle.readfile("copperhead.rle");
 	alive = rle.decode(pattern, GameOfLife.board.b);
 
 	GameOfLife.board.init(alive);
@@ -747,10 +801,8 @@ private: System::Void button6_Click(System::Object^  sender, System::EventArgs^ 
 			return;
 	}
 
-	//RLE format:
-	vector<string>pattern = { "38F","25F1T12F","23F1T1F1T12F","13F2T6F2T12F2T1F","12F1T3F1T4F2T12F2T1F","1F2T8F1T5F1T3F2T15F",
-							"1F2T8F1T3F1T1F2T4F1T1F1T12F","11F1T5F1T7F1T12F","12F1T3F1T21F","13F2T23F","38F" };
-
+	//RLE file format:
+	vector<string> pattern = rle.readfile("gosperGliderGun.rle");
 	alive = rle.decode(pattern, GameOfLife.board.b);
 
 	GameOfLife.board.init(alive);
@@ -863,5 +915,23 @@ private: System::Void pictureBox1_Click(System::Object^  sender, System::EventAr
 					 }
 				 }
 		 }
+
+//------------------------------custom from RLE file----------------------------------------------
+private: System::Void button12_Click(System::Object^  sender, System::EventArgs^  e) {
+	//RLE file format:
+	String^ f = textBox2->Text;
+	std::string ff = msclr::interop::marshal_as<std::string>(f);
+	vector<string> pattern = rle.readfile(ff);
+	alive = rle.decode(pattern, GameOfLife.board.b);
+
+	GameOfLife.board.init(alive);
+	button8->Enabled = true;
+
+	GameOfLife.addIterationInfo(alive);
+
+	this->draw();
+}
+private: System::Void label11_Click(System::Object^  sender, System::EventArgs^  e) {
+}
 };
 }
